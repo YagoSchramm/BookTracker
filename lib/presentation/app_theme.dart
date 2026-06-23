@@ -10,7 +10,7 @@ final lightTheme = ThemeData(
     onPrimary: Color(0xFFFFFFFF),
     secondary: Color(0xFFB94712),
     onSecondary: Color(0xFFFFFFFF),
-
+    inverseSurface: Color.fromARGB(255, 107, 107, 107),
     error: Color(0xFFB3261E),
     onError: Color(0xFFFFFFFF),
 
@@ -32,6 +32,7 @@ final darkTheme = ThemeData(
 
     secondary: Color(0xFFC85A1F),
     onSecondary: Color(0xFFFFFFFF),
+    inverseSurface: Color.fromARGB(255, 107, 107, 107),
 
     error: Color(0xFFFF8A80),
     onError: Color(0xFF000000),
