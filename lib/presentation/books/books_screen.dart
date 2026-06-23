@@ -1,12 +1,12 @@
 import 'package:book_tracker/presentation/components/book_card.dart';
 import 'package:book_tracker/presentation/components/week_streak_container.dart';
-import 'package:book_tracker/presentation/home_state.dart';
+import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class BooksScreen extends StatelessWidget {
+  const BooksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<HomeState>(
+      body: Consumer<BooksState>(
         builder: (context, state, child) {
           if (state.isLoading == false) {
             return SingleChildScrollView(

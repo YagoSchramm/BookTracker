@@ -28,11 +28,11 @@ class WeeklyStreakCard extends StatelessWidget {
     const days = ["M", "T", "W", "T", "F", "S", "S"];
 
     return Container(
-      margin: const EdgeInsets.all(12),
+      margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
