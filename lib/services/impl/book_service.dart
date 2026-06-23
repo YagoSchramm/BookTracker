@@ -1,7 +1,7 @@
 import 'package:book_tracker/entities/database/database.dart';
 import 'package:book_tracker/entities/database/tables/book_table.dart';
 
-class BookRepository {
+class BookService {
   final BookTrackerDatabase _dbHelper = BookTrackerDatabase();
 
   Future<int> insertBook(String title, String filePath) async {
