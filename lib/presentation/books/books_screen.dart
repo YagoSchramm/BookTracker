@@ -271,7 +271,7 @@ class BooksScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 120),
+                  SizedBox(height: 128),
                 ],
               ),
             );
