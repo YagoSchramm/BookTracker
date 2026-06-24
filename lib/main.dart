@@ -1,4 +1,5 @@
 import 'package:book_tracker/global.dart';
+import 'package:book_tracker/presentation/add/add_book_state.dart';
 import 'package:book_tracker/presentation/app_theme.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:book_tracker/presentation/home/home_screen.dart';
@@ -15,6 +16,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => HomeState()),
         ChangeNotifierProvider(create: (context) => BooksState()),
+        ChangeNotifierProvider(create: (context) => AddBookState()),
       ],
       child: BookTrackerApp(),
     ),
