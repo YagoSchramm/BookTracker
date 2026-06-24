@@ -36,10 +36,7 @@ class AddBookScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 8),
 
-                Image.asset(
-                  "assets/images/add_book_image.png",
-                  height: 180,
-                ),
+                Image.asset("assets/images/add_book_image.png", height: 180),
 
                 const SizedBox(height: 12),
 
@@ -58,10 +55,7 @@ class AddBookScreen extends StatelessWidget {
                 Text(
                   "Import a PDF and organize your reading library",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: colors.inverseSurface,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: colors.inverseSurface, fontSize: 14),
                 ),
 
                 const SizedBox(height: 32),
@@ -95,8 +89,39 @@ class AddBookScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () {
-                      // selecionar pdf
+                    onTap: () async{
+                      bool sucess= await state.pickPdf();
+                      if (!context.mounted) return;
+
+                      final IconData icone = sucess
+                          ? CupertinoIcons.checkmark_alt_circle
+                          : CupertinoIcons.clear_circled;
+                      final Color corDeFundo = sucess
+                          ? Theme.of(context).colorScheme.primary
+                          :Theme.of(context).colorScheme.error;
+                      final String mensagem = sucess
+                          ? 'Pdf picked with succes!'
+                          : 'An error ocurred.';
+
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: corDeFundo,
+                          content: Row(
+                            children: [
+                              Icon(icone, color:Theme.of(context).colorScheme.onPrimary),
+                              const SizedBox(width: 12),
+                              Text(
+                                mensagem,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
                     },
                     child: Container(
                       width: double.infinity,
@@ -110,20 +135,16 @@ class AddBookScreen extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            CupertinoIcons.doc_fill,
-                            color: colors.primary,
-                          ),
+                          Icon(CupertinoIcons.doc_fill, color: colors.primary),
 
                           const SizedBox(width: 12),
 
                           Expanded(
                             child: Text(
-                              state.selectedPdfName.isEmpty ?
-                                  "Choose a PDF file": state.selectedPdfName,
-                              style: TextStyle(
-                                color: colors.onSurface,
-                              ),
+                              state.selectedPdfName.isEmpty
+                                  ? "Choose a PDF file"
+                                  : state.selectedPdfName,
+                              style: TextStyle(color: colors.onSurface),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -155,15 +176,10 @@ class AddBookScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    icon: const Icon(
-                      CupertinoIcons.add,
-                      size: 18,
-                    ),
+                    icon: const Icon(CupertinoIcons.add, size: 18),
                     label: const Text(
                       "Create Book",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
