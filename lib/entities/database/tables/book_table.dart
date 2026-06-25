@@ -8,6 +8,9 @@ class BookTable {
   /// The "file_path" field
   static const String columnFilePath = 'file_path';
 
+  /// The "cover_path" field
+  static const String columnCoverPath = 'cover_path';
+
   /// The "last_page_read" field
   static const String columnLastPageRead = 'last_page_read';
 
@@ -23,6 +26,7 @@ class BookTable {
   $columnID INTEGER PRIMARY KEY AUTOINCREMENT,
   $columnTitle TEXT NOT NULL,
   $columnFilePath TEXT NOT NULL,
+  $columnCoverPath TEXT NOT NULL,
   $columnLastPageRead INTEGER DEFAULT 0,
   $columnTotalPages INTEGER,
   $columnAddedAt TEXT

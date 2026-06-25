@@ -168,8 +168,42 @@ class AddBookScreen extends StatelessWidget {
                 const SizedBox(height: 32),
 
                 GestureDetector(
-                  onTap: () {
-                    // criar livro
+                  onTap: () async {
+                    bool success = await state.saveBook();
+                    if (!context.mounted) return;
+
+                    final IconData icone = success
+                        ? CupertinoIcons.checkmark_alt_circle
+                        : CupertinoIcons.clear_circled;
+                    final Color corDeFundo = success
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.error;
+                    final String mensagem = success
+                        ? 'Book saved with success!'
+                        : 'An error ocurred.';
+
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: corDeFundo,
+                        content: Row(
+                          children: [
+                            Icon(
+                              icone,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              mensagem,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
                   },
                   child: Container(
                     width: double.infinity,
@@ -179,9 +213,11 @@ class AddBookScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: state.isLoading
-                        ? CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          )
+                        ? Center(
+                          child: CircularProgressIndicator(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                        )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

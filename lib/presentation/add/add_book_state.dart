@@ -7,17 +7,29 @@ import 'package:path/path.dart';
 class AddBookState extends ChangeNotifier {
   TextEditingController titleController = TextEditingController();
   String selectedPdfName = "";
-   File? file;
-   bool isLoading=false;
+  File? file;
+  bool isLoading = false;
   Future<bool> pickPdf() async {
-     file = await fileService.pickPdf();
+    file = await fileService.pickPdf();
     if (file == null) return false;
-    selectedPdfName=basename(file!.path);
+    selectedPdfName = basename(file!.path);
     notifyListeners();
     return true;
   }
 
-  Future<bool> saveBook(){
-    
+  Future<bool> saveBook() async {
+    if (file == null) return false;
+    if (titleController.text.isEmpty) return false;
+    isLoading = true;
+    notifyListeners();
+    String pdfPath = await fileService.importPdf(file!);
+    String coverPath = await pdfService.generateCover(pdfPath);
+    bookService.insertBook(titleController.text, pdfPath, coverPath);
+    isLoading = false;
+    titleController.text = "";
+    selectedPdfName = "";
+    file=null;
+    notifyListeners();
+    return true;
   }
 }

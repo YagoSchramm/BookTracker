@@ -17,6 +17,8 @@ class _PdfService implements PdfService {
     final pageImage = await page.render(width: page.width, height: page.height);
     await page.close();
     Directory directory = await getApplicationDocumentsDirectory();
+    final imagesDir = Directory(join(directory.path, "images"));
+    await imagesDir.create(recursive: true);
     final String coverPath = join(
       directory.path,
       "images",
@@ -25,5 +27,12 @@ class _PdfService implements PdfService {
     final coverFile = File(coverPath);
     await coverFile.writeAsBytes(pageImage!.bytes);
     return coverPath;
+  }
+
+  @override
+  Future<int> getBookPages(String pdfPath) async {
+    final document = await PdfDocument.openFile(pdfPath);
+    final pageCount = document.pagesCount;
+    return pageCount;
   }
 }
