@@ -28,7 +28,6 @@ class BookTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Capa
             Container(
               height: 190,
               decoration: BoxDecoration(

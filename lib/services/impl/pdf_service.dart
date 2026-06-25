@@ -17,6 +17,8 @@ class _PdfService implements PdfService {
     final pageImage = await page.render(width: page.width, height: page.height);
     await page.close();
     Directory directory = await getApplicationDocumentsDirectory();
+    final imagesDir = Directory(join(directory.path, "images"));
+    await imagesDir.create(recursive: true);
     final String coverPath = join(
       directory.path,
       "images",

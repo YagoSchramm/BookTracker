@@ -4,11 +4,12 @@ import 'package:book_tracker/entities/database/tables/book_table.dart';
 class BookService {
   final BookTrackerDatabase _database = BookTrackerDatabase();
 
-  Future<int> insertBook(String title, String filePath) async {
+  Future<int> insertBook(String title, String filePath, String coverPath) async {
     final db = await _database.database;
     return await db.insert('books', {
       BookTable.columnTitle: title,
       BookTable.columnFilePath: filePath,
+      BookTable.columnCoverPath: coverPath,
       BookTable.columnLastPageRead: 0,
       BookTable.columnAddedAt: DateTime.now().toIso8601String(),
     });
