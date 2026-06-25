@@ -28,4 +28,11 @@ class _PdfService implements PdfService {
     await coverFile.writeAsBytes(pageImage!.bytes);
     return coverPath;
   }
+
+  @override
+  Future<int> getBookPages(String pdfPath) async {
+    final document = await PdfDocument.openFile(pdfPath);
+    final pageCount = document.pagesCount;
+    return pageCount;
+  }
 }

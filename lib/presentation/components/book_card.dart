@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class BookTile extends StatelessWidget {
   final String title;
+  final String coverPath;
   final int lastPageRead;
   final int totalPages;
   final VoidCallback? onTap;
@@ -9,6 +12,7 @@ class BookTile extends StatelessWidget {
   const BookTile({
     super.key,
     required this.title,
+    required this.coverPath,
     required this.lastPageRead,
     required this.totalPages,
     this.onTap,
@@ -37,19 +41,37 @@ class BookTile extends StatelessWidget {
                   BoxShadow(
                     blurRadius: 10,
                     offset: const Offset(0, 4),
-                    color: Colors.black.withValues(alpha: .08),
+                    color: Colors.black.withOpacity(0.08),
                   ),
                 ],
               ),
-              child: Center(
-                child: Icon(
-                  Icons.menu_book_rounded,
-                  size: 42,
-                  color: theme.colorScheme.onPrimary,
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: coverPath.isNotEmpty
+                    ? Image.file(
+                        File(coverPath),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Icon(
+                              Icons.menu_book_rounded,
+                              size: 42,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Icon(
+                          Icons.menu_book_rounded,
+                          size: 42,
+                          color: theme.colorScheme.onPrimary,
+                        ),
+                      ),
               ),
             ),
-
             const SizedBox(height: 8),
 
             Text(

@@ -67,216 +67,215 @@ class BooksScreen extends StatelessWidget {
       ),
       body: Consumer<BooksState>(
         builder: (context, state, child) {
-          if (state.isLoading == false) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 15),
-                  Row(
-                    children: [
-                      SizedBox(width: 12),
-                      Text(
-                        "Hello, ${state.name}",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 15),
+                Row(
+                  children: [
+                    SizedBox(width: 12),
+                    Text(
+                      "Hello, ${state.name}",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    SizedBox(width: 12),
+                    Text(
+                      "Recent activity:",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inverseSurface,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                if (state.books.isNotEmpty)
+                  SizedBox(
+                    height: 275,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.books.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemBuilder: (context, index) {
+                        final book = state.books[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: BookTile(
+                            title: book.title,
+                            coverPath: book.coverPath,
+                            lastPageRead: book.lastPageRead,
+                            totalPages: book.totalPages,
+                            onTap: () {},
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'No books yet. Add one to start tracking.',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                CupertinoIcons.book_fill,
+                                size: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(height: 12),
+
+                              Text(
+                                "12",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              Text(
+                                "Books Read",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.inverseSurface,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      SizedBox(width: 12),
-                      Text(
-                        "Recent activity:",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inverseSurface,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                    ),
+
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                CupertinoIcons.bookmark_fill,
+                                size: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(height: 12),
+
+                              Text(
+                                "3",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              Text(
+                                "Reading",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.inverseSurface,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                WeeklyStreakCard(
+                  daysRead: [true, true, true, false, true, true, true],
+                ),
+                SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: BookTile(
-                            title: "Clean Code",
-                            lastPageRead: 120,
-                            totalPages: 464,
-                            onTap: () {},
+                        Text(
+                          "Reading Goal",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: BookTile(
-                            title: "Clean Code",
-                            lastPageRead: 120,
-                            totalPages: 464,
-                            onTap: () {},
-                          ),
+                        const SizedBox(height: 12),
+                        LinearProgressIndicator(
+                          value: .8,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: BookTile(
-                            title: "Clean Code",
-                            lastPageRead: 120,
-                            totalPages: 464,
-                            onTap: () {},
+                        const SizedBox(height: 8),
+                        Text(
+                          "800 / 1000 pages",
+                          style: TextStyle(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.inverseSurface,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.book_fill,
-                                  size: 28,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                const SizedBox(height: 12),
-
-                                Text(
-                                  "12",
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface,
-                                  ),
-                                ),
-
-                                const SizedBox(height: 4),
-
-                                Text(
-                                  "Books Read",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.inverseSurface,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.bookmark_fill,
-                                  size: 28,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                const SizedBox(height: 12),
-
-                                Text(
-                                  "3",
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface,
-                                  ),
-                                ),
-
-                                const SizedBox(height: 4),
-
-                                Text(
-                                  "Reading",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.inverseSurface,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  WeeklyStreakCard(
-                    daysRead: [true, true, true, false, true, true, true],
-                  ),
-                  SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Reading Goal",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          LinearProgressIndicator(
-                            value: .8,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "800 / 1000 pages",
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.inverseSurface,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 128),
-                ],
-              ),
-            );
-          }
-          return (Center(child: Text("NENHUMA INFORMACAO")));
+                ),
+                SizedBox(height: 128),
+              ],
+            ),
+          );
         },
       ),
     );
