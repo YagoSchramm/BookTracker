@@ -1,12 +1,13 @@
+import 'package:book_tracker/presentation/add/add_book_screen.dart';
 import 'package:book_tracker/presentation/components/book_card.dart';
 import 'package:book_tracker/presentation/components/week_streak_container.dart';
-import 'package:book_tracker/presentation/home_state.dart';
+import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class BooksScreen extends StatelessWidget {
+  const BooksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,43 +23,49 @@ class HomeScreen extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(
-                  CupertinoIcons.book_fill,
-                  size: 32,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                Positioned(
-                  right: -4,
-                  bottom: -1,
-                  child: Container(
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.tertiary,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        width: 2,
+          IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddBookScreen()),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(
+                    CupertinoIcons.book_fill,
+                    size: 32,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Positioned(
+                    right: -4,
+                    bottom: -7,
+                    child: Container(
+                      width: 18,
+                      height: 18,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        CupertinoIcons.add,
+                        size: 10,
+                        color: Theme.of(context).colorScheme.onTertiary,
                       ),
                     ),
-                    child: Icon(
-                      CupertinoIcons.add,
-                      size: 10,
-                      color: Theme.of(context).colorScheme.onTertiary,
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
       ),
-      body: Consumer<HomeState>(
+      body: Consumer<BooksState>(
         builder: (context, state, child) {
           if (state.isLoading == false) {
             return SingleChildScrollView(
@@ -264,7 +271,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 120),
+                  SizedBox(height: 128),
                 ],
               ),
             );
