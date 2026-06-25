@@ -89,8 +89,8 @@ class AddBookScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () async{
-                      bool sucess= await state.pickPdf();
+                    onTap: () async {
+                      bool sucess = await state.pickPdf();
                       if (!context.mounted) return;
 
                       final IconData icone = sucess
@@ -98,7 +98,7 @@ class AddBookScreen extends StatelessWidget {
                           : CupertinoIcons.clear_circled;
                       final Color corDeFundo = sucess
                           ? Theme.of(context).colorScheme.primary
-                          :Theme.of(context).colorScheme.error;
+                          : Theme.of(context).colorScheme.error;
                       final String mensagem = sucess
                           ? 'Pdf picked with succes!'
                           : 'An error ocurred.';
@@ -109,12 +109,17 @@ class AddBookScreen extends StatelessWidget {
                           backgroundColor: corDeFundo,
                           content: Row(
                             children: [
-                              Icon(icone, color:Theme.of(context).colorScheme.onPrimary),
+                              Icon(
+                                icone,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                               const SizedBox(width: 12),
                               Text(
                                 mensagem,
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
                                 ),
                               ),
                             ],
@@ -162,25 +167,39 @@ class AddBookScreen extends StatelessWidget {
 
                 const SizedBox(height: 32),
 
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: FilledButton.icon(
-                    onPressed: () {
-                      // criar livro
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colors.primary,
-                      foregroundColor: colors.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    // criar livro
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: colors.primary,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    icon: const Icon(CupertinoIcons.add, size: 18),
-                    label: const Text(
-                      "Create Book",
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
+                    child: state.isLoading
+                        ? CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                CupertinoIcons.add,
+                                size: 18,
+                                color: colors.onPrimary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "Create Book",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: colors.onPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
                 ),
 
