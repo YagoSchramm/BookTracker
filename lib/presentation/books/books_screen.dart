@@ -2,6 +2,7 @@ import 'package:book_tracker/presentation/add/add_book_screen.dart';
 import 'package:book_tracker/presentation/components/book_card.dart';
 import 'package:book_tracker/presentation/components/week_streak_container.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
+import 'package:book_tracker/presentation/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -118,7 +119,14 @@ class BooksScreen extends StatelessWidget {
                             coverPath: book.coverPath,
                             lastPageRead: book.lastPageRead,
                             totalPages: book.totalPages,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PdfViewerScreen(book: book),
+                                ),
+                              );
+                            },
                           ),
                         );
                       },
