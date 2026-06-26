@@ -1,5 +1,6 @@
 import 'package:book_tracker/presentation/books/books_screen.dart';
 import 'package:book_tracker/presentation/library/library_screen.dart';
+import 'package:book_tracker/presentation/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeState extends ChangeNotifier {
@@ -13,6 +14,6 @@ class HomeState extends ChangeNotifier {
   final List<Widget> screens = [
     BooksScreen(),
     LibraryScreen(),
-    const Center(child: Text("Configurações")),
+    const SettingsScreen(),
   ];
 }

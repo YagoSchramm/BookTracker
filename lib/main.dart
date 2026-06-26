@@ -1,5 +1,6 @@
 import 'package:book_tracker/global.dart';
 import 'package:book_tracker/presentation/add/add_book_state.dart';
+import 'package:book_tracker/presentation/app_state.dart';
 import 'package:book_tracker/presentation/app_theme.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:book_tracker/presentation/home/home_screen.dart';
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => AddBookState()),
         ChangeNotifierProvider(create: (context) => LibraryState()),
         ChangeNotifierProvider(create: (context) => OnboardingState()),
+        ChangeNotifierProvider(create: (context) => AppState()),
       ],
       child: BookTrackerApp(),
     ),
@@ -37,7 +39,7 @@ class BookTrackerApp extends StatelessWidget {
       title: 'BookTracker',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: context.watch<AppState>().themeMode,
       home: Consumer<OnboardingState>(
         builder: (context, onboardingState, child) {
           if (onboardingState.isLoading) {
