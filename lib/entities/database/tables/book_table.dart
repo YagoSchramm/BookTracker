@@ -22,7 +22,7 @@ class BookTable {
 
   static String createBookTable() {
     return '''
-    CREATE TABLE books (
+    CREATE TABLE IF NOT EXISTS books (
   $columnID INTEGER PRIMARY KEY AUTOINCREMENT,
   $columnTitle TEXT NOT NULL,
   $columnFilePath TEXT NOT NULL,

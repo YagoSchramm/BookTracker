@@ -7,7 +7,7 @@ class ReadingLogTable {
 
   static String createReadingLogTable() {
     return '''
-    CREATE TABLE reading_log (
+    CREATE TABLE IF NOT EXISTS reading_log (
   $columnID INTEGER PRIMARY KEY AUTOINCREMENT,
   $columnDate TEXT NOT NULL UNIQUE
 )

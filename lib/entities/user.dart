@@ -6,6 +6,7 @@ class User {
   final int pageGoal;
   final int totalBooksRegistered;
   final int totalBooksRead;
+  final int pagesRead;
 
   User({
     required this.id,
@@ -13,6 +14,7 @@ class User {
     required this.pageGoal,
     required this.totalBooksRegistered,
     required this.totalBooksRead,
+    required this.pagesRead,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
@@ -22,6 +24,26 @@ class User {
       pageGoal: map[UserTable.columnPageGoal] as int,
       totalBooksRegistered: map[UserTable.columnTotalBooksRegistered] as int,
       totalBooksRead: map[UserTable.columnTotalBooksRead] as int,
+      pagesRead: map[UserTable.columnPagesRead] as int,
+    );
+  }
+
+  User copyWith({
+    int? id,
+    String? username,
+    int? pageGoal,
+    int? totalBooksRegistered,
+    int? totalBooksRead,
+    int? pagesRead,
+  }) {
+    return User(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      pageGoal: pageGoal ?? this.pageGoal,
+      totalBooksRegistered:
+          totalBooksRegistered ?? this.totalBooksRegistered,
+      totalBooksRead: totalBooksRead ?? this.totalBooksRead,
+      pagesRead: pagesRead ?? this.pagesRead,
     );
   }
 }

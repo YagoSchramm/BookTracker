@@ -6,6 +6,7 @@ abstract class UserService {
   Future<User?> getUser();
   Future<void> updateUsername(String username);
   Future<void> updatePageGoal(int pageGoal);
+  Future<void> updatePagesRead(int pagesRead);
   Future<void> incrementTotalBooksRegistered();
   Future<void> incrementTotalBooksRead();
   Future<void> decrementTotalBooksRegistered();

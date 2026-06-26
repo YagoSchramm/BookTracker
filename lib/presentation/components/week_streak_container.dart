@@ -25,7 +25,12 @@ class WeeklyStreakCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    const days = ["M", "T", "W", "T", "F", "S", "S"];
+    final now = DateTime.now();
+    final days = List<String>.generate(7, (index) {
+      final date = now.subtract(Duration(days: 6 - index));
+      const labels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+      return labels[date.weekday - 1];
+    });
 
     return Container(
       margin: const EdgeInsets.all(8),
@@ -62,7 +67,7 @@ class WeeklyStreakCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(7, (index) {
               final completed = daysRead[index];
-              final isToday = DateTime.now().weekday - 1 == index;
+              final isToday = index == 6;
 
               return Column(
                 children: [

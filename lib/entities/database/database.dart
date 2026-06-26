@@ -51,7 +51,29 @@ class BookTrackerDatabase {
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
+      onOpen: _onOpen,
     );
+  }
+
+  /// Callback executed when the database is opened.
+  ///
+  /// Used to ensure all required tables and columns exist even if the
+  /// database file was created before new columns were added.
+  Future<void> _onOpen(Database db) async {
+    await db.execute(BookTable.createBookTable());
+    await db.execute(ReadingLogTable.createReadingLogTable());
+    await db.execute(UserTable.createUserTable());
+
+    final tableInfo = await db.rawQuery('PRAGMA table_info(user)');
+    final existingColumns = tableInfo
+        .map((row) => row['name'] as String)
+        .toSet();
+
+    if (!existingColumns.contains(UserTable.columnPagesRead)) {
+      await db.execute(
+        'ALTER TABLE user ADD COLUMN ${UserTable.columnPagesRead} INTEGER NOT NULL DEFAULT 0',
+      );
+    }
   }
 
   /// Callback executed when the database is created for the first time.

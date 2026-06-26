@@ -26,6 +26,7 @@ class _UserService implements UserService {
       UserTable.columnPageGoal: pageGoal,
       UserTable.columnTotalBooksRegistered: 0,
       UserTable.columnTotalBooksRead: 0,
+      UserTable.columnPagesRead: 0,
     });
   }
 
@@ -54,6 +55,17 @@ class _UserService implements UserService {
     await db.update(
       'user',
       {UserTable.columnPageGoal: pageGoal},
+      where: '${UserTable.columnID} = ?',
+      whereArgs: [1],
+    );
+  }
+
+  @override
+  Future<void> updatePagesRead(int pagesRead) async {
+    final db = await _database.database;
+    await db.update(
+      'user',
+      {UserTable.columnPagesRead: pagesRead},
       where: '${UserTable.columnID} = ?',
       whereArgs: [1],
     );
