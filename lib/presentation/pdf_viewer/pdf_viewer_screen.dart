@@ -6,41 +6,60 @@ import 'package:provider/provider.dart';
 
 import 'package:book_tracker/entities/book.dart';
 
-class PdfViewerScreen extends StatelessWidget {
+class PdfViewerScreen extends StatefulWidget {
   final Book book;
   const PdfViewerScreen({super.key, required this.book});
 
   @override
+  State<PdfViewerScreen> createState() => _PdfViewerScreenState();
+}
+
+class _PdfViewerScreenState extends State<PdfViewerScreen> {
+  late final PdfViewerState pdfState;
+
+  @override
+  void initState() {
+    super.initState();
+    pdfState = PdfViewerState(book: widget.book);
+  }
+
+  @override
+  void dispose() {
+    pdfState.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => PdfViewerState(book: book),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inverseSurface.withValues(alpha: .85),
-                shape: BoxShape.circle,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  CupertinoIcons.chevron_back,
-                  color: Theme.of(context).colorScheme.onInverseSurface,
+    return ChangeNotifierProvider.value(
+      value: pdfState,
+      child: Consumer<PdfViewerState>(
+        builder: (context, state, child) {
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.inverseSurface.withValues(alpha: .85),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      CupertinoIcons.chevron_back,
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                    ),
+                  ),
                 ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-        ),
-        ),
-        body: Consumer<PdfViewerState>(
-          builder: (context, state, child) {
-            return Stack(
+            body: Stack(
               children: [
                 PdfView(
                   controller: state.pdfController,
@@ -88,7 +107,7 @@ class PdfViewerScreen extends StatelessWidget {
                         children: [
                           IconButton(
                             icon: Icon(
-                             CupertinoIcons.chevron_back,
+                              CupertinoIcons.chevron_back,
                               color: Theme.of(context).colorScheme.onInverseSurface,
                             ),
                             onPressed: state.previousPage,
@@ -97,7 +116,7 @@ class PdfViewerScreen extends StatelessWidget {
                             valueListenable: state.pdfController.pageListenable,
                             builder: (context, currentPage, child) {
                               return Text(
-                                '$currentPage/${state.pdfController.pagesCount ?? book.totalPages}',
+                                '$currentPage/${state.pdfController.pagesCount ?? widget.book.totalPages}',
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.onInverseSurface,
                                 ),
@@ -117,10 +136,9 @@ class PdfViewerScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            );
-          },
-        ),
-      ),
-    );
+            ),
+          );
+        },
+      ));
   }
 }

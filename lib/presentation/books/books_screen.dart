@@ -1,5 +1,6 @@
 import 'package:book_tracker/presentation/add/add_book_screen.dart';
 import 'package:book_tracker/presentation/components/book_card.dart';
+import 'package:book_tracker/presentation/components/reading_goal_container.dart';
 import 'package:book_tracker/presentation/components/week_streak_container.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:book_tracker/presentation/pdf_viewer/pdf_viewer_screen.dart';
@@ -28,7 +29,7 @@ class BooksScreen extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddBookScreen()),
-            ),
+            ).then((_) => context.read<BooksState>().refresh()),
             icon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Stack(
@@ -77,7 +78,7 @@ class BooksScreen extends StatelessWidget {
                 SizedBox(height: 15),
                 Row(
                   children: [
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(
                       "Hello, ${state.name}",
                       style: TextStyle(
@@ -88,10 +89,10 @@ class BooksScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   children: [
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(
                       "Recent activity:",
                       style: TextStyle(
@@ -125,7 +126,7 @@ class BooksScreen extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) => PdfViewerScreen(book: book),
                                 ),
-                              );
+                              ).then((_) => context.read<BooksState>().refresh());
                             },
                           ),
                         );
@@ -165,7 +166,7 @@ class BooksScreen extends StatelessWidget {
                               const SizedBox(height: 12),
 
                               Text(
-                                "12",
+                                '${state.totalBooks}',
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -211,7 +212,7 @@ class BooksScreen extends StatelessWidget {
                               const SizedBox(height: 12),
 
                               Text(
-                                "3",
+                                '${state.pagesRead}',
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -224,7 +225,7 @@ class BooksScreen extends StatelessWidget {
                               const SizedBox(height: 4),
 
                               Text(
-                                "Reading",
+                                "Pages read",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(
@@ -241,45 +242,10 @@ class BooksScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 WeeklyStreakCard(
-                  daysRead: [true, true, true, false, true, true, true],
+                  daysRead: state.weekDaysRead,
                 ),
                 SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Reading Goal",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        LinearProgressIndicator(
-                          value: .8,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "800 / 1000 pages",
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.inverseSurface,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                ReadingGoalContainer(user: state.user),
                 SizedBox(height: 128),
               ],
             ),

@@ -1,10 +1,13 @@
 import 'package:book_tracker/global.dart';
 import 'package:book_tracker/presentation/add/add_book_state.dart';
+import 'package:book_tracker/presentation/app_state.dart';
 import 'package:book_tracker/presentation/app_theme.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:book_tracker/presentation/home/home_screen.dart';
 import 'package:book_tracker/presentation/home/home_state.dart';
 import 'package:book_tracker/presentation/library/library_state.dart';
+import 'package:book_tracker/presentation/onboarding/onboarding_screen.dart';
+import 'package:book_tracker/presentation/onboarding/onboarding_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +22,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => BooksState()),
         ChangeNotifierProvider(create: (context) => AddBookState()),
         ChangeNotifierProvider(create: (context) => LibraryState()),
+        ChangeNotifierProvider(create: (context) => OnboardingState()),
+        ChangeNotifierProvider(create: (context) => AppState()),
       ],
       child: BookTrackerApp(),
     ),
@@ -34,8 +39,19 @@ class BookTrackerApp extends StatelessWidget {
       title: 'BookTracker',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: .system,
-      home: HomeScreen(),
+      themeMode: context.watch<AppState>().themeMode,
+      home: Consumer<OnboardingState>(
+        builder: (context, onboardingState, child) {
+          if (onboardingState.isLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+          return onboardingState.showOnboarding
+              ? const OnboardingScreen()
+              : HomeScreen();
+        },
+      ),
     );
   }
 }
