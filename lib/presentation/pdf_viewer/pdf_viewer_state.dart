@@ -6,9 +6,9 @@ import 'package:pdfx/pdfx.dart';
 class PdfViewerState extends ChangeNotifier {
   final Book book;
   late final PdfController pdfController;
-
+  int initialPage = 1;
   PdfViewerState({required this.book}) {
-    final initialPage = book.lastPageRead == 0 ? 1 : book.lastPageRead;
+    initialPage = book.lastPageRead == 0 ? 1 : book.lastPageRead;
 
     pdfController = PdfController(
       document: PdfDocument.openFile(book.filePath),
@@ -32,6 +32,10 @@ class PdfViewerState extends ChangeNotifier {
 
   @override
   void dispose() {
+    final bool pageChanged = pdfController.page != initialPage;
+    if (pageChanged){
+      
+    }
     bookService.updateLastPageRead(book.id, pdfController.page);
     pdfController.dispose();
     super.dispose();

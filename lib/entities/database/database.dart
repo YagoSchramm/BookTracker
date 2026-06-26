@@ -1,4 +1,6 @@
 import 'package:book_tracker/entities/database/tables/book_table.dart';
+import 'package:book_tracker/entities/database/tables/reading_log_table.dart';
+import 'package:book_tracker/entities/database/tables/user_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -61,5 +63,7 @@ class BookTrackerDatabase {
   /// - [version]: the database version defined in [_initDatabase].
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(BookTable.createBookTable());
+    await db.execute(ReadingLogTable.createReadingLogTable());
+    await db.execute(UserTable.createUserTable());
   }
 }
