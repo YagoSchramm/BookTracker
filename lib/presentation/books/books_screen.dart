@@ -103,15 +103,15 @@ class BooksScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8),
-                if (state.books.isNotEmpty)
+                if (state.filteredBooks.isNotEmpty)
                   SizedBox(
                     height: 275,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.books.length,
+                      itemCount: state.filteredBooks.length,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       itemBuilder: (context, index) {
-                        final book = state.books[index];
+                        final book = state.filteredBooks[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: BookTile(
@@ -178,7 +178,7 @@ class BooksScreen extends StatelessWidget {
                               const SizedBox(height: 4),
 
                               Text(
-                                "Books Read",
+                                "Books",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(

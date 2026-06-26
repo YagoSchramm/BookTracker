@@ -4,6 +4,7 @@ import 'package:book_tracker/presentation/app_theme.dart';
 import 'package:book_tracker/presentation/books/books_state.dart';
 import 'package:book_tracker/presentation/home/home_screen.dart';
 import 'package:book_tracker/presentation/home/home_state.dart';
+import 'package:book_tracker/presentation/library/library_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => HomeState()),
         ChangeNotifierProvider(create: (context) => BooksState()),
         ChangeNotifierProvider(create: (context) => AddBookState()),
+        ChangeNotifierProvider(create: (context) => LibraryState()),
       ],
       child: BookTrackerApp(),
     ),
