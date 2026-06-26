@@ -19,6 +19,24 @@ class PdfViewerScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          leading: IconButton(
+            icon: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.inverseSurface.withValues(alpha: .85),
+                shape: BoxShape.circle,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  CupertinoIcons.chevron_back,
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                ),
+              ),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+        ),
         ),
         body: Consumer<PdfViewerState>(
           builder: (context, state, child) {
@@ -79,7 +97,7 @@ class PdfViewerScreen extends StatelessWidget {
                             valueListenable: state.pdfController.pageListenable,
                             builder: (context, currentPage, child) {
                               return Text(
-                                '$currentPage/${state.pdfController.pagesCount ?? 0}',
+                                '$currentPage/${state.pdfController.pagesCount ?? book.totalPages}',
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.onInverseSurface,
                                 ),
