@@ -16,10 +16,6 @@ class BooksState extends ChangeNotifier {
 
   String get name => user?.username ?? 'Reader';
   int get pageGoal => user?.pageGoal ?? 0;
-
-  Future<void> refresh() async {
-    await loadBooks();
-  }
   int get pagesRead => user?.pagesRead ?? 0;
   int get totalBooks => books.length;
 

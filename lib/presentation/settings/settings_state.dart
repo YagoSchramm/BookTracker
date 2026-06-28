@@ -1,16 +1,29 @@
 import 'package:book_tracker/entities/user.dart';
 import 'package:book_tracker/global.dart';
+import 'package:book_tracker/presentation/app_state.dart';
 import 'package:flutter/material.dart';
 
 class SettingsState extends ChangeNotifier {
+  SettingsState({required this.appState}) {
+    appState.addListener(_handleAppStateChanged);
+    loadUser();
+  }
+
+  final AppState appState;
   bool isLoading = true;
   bool isSaving = false;
   User? user;
   String username = '';
   int pageGoal = 0;
 
-  SettingsState() {
-    loadUser();
+  void _handleAppStateChanged() {
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    appState.removeListener(_handleAppStateChanged);
+    super.dispose();
   }
 
   Future<void> loadUser() async {

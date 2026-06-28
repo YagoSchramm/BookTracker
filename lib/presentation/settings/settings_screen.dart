@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsState(),
+      create: (context) => SettingsState(appState: context.read<AppState>()),
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -21,8 +21,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         ),
-        body: Consumer2<SettingsState, AppState>(
-          builder: (context, state, appState, child) {
+        body: Consumer<SettingsState>(
+          builder: (context, state, child) {
             if (state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -45,8 +45,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 ThemeSwitcherCard(
-                  isDarkMode: appState.themeMode == ThemeMode.dark,
-                  onChanged: (value) => appState.setThemeMode(
+                  isDarkMode: state.appState.themeMode == ThemeMode.dark,
+                  onChanged: (value) => state.appState.setThemeMode(
                     value ? ThemeMode.dark : ThemeMode.light,
                   ),
                 ),
@@ -65,4 +65,5 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
-  }}
+  }
+}
