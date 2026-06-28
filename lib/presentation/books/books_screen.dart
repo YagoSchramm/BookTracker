@@ -8,9 +8,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BooksScreen extends StatelessWidget {
+class BooksScreen extends StatefulWidget {
   const BooksScreen({super.key});
 
+  @override
+  State<BooksScreen> createState() => _BooksScreenState();
+  
+}
+
+class _BooksScreenState extends State<BooksScreen> {
+    @override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  final booksState = context.read<BooksState>();
+  booksState.loadBooks();
+  booksState.applyFilters();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +42,7 @@ class BooksScreen extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddBookScreen()),
-            ).then((_) => context.read<BooksState>().refresh()),
+            ).then((_) => context.read<BooksState>().loadBooks()),
             icon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Stack(
@@ -126,7 +139,7 @@ class BooksScreen extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) => PdfViewerScreen(book: book),
                                 ),
-                              ).then((_) => context.read<BooksState>().refresh());
+                              ).then((_) => context.read<BooksState>().loadBooks());
                             },
                           ),
                         );

@@ -5,9 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LibraryScreen extends StatelessWidget {
+class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
 
+  @override
+  State<LibraryScreen> createState() => _LibraryScreenState();
+}
+
+class _LibraryScreenState extends State<LibraryScreen> {
+  @override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  final libraryState = context.read<LibraryState>();
+  libraryState.loadBooks();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,41 +123,6 @@ class LibraryScreen extends StatelessWidget {
                       'No books found.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                  ),
-                )
-              else
-                Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    itemCount: state.filteredBooks.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 0.68,
-                        ),
-                    itemBuilder: (context, index) {
-                      final book = state.filteredBooks[index];
-                      final progress = book.totalPages > 0
-                          ? book.lastPageRead / book.totalPages
-                          : 0.0;
-
-                      return BookTile(
-                        title: book.title,
-                        coverPath: book.coverPath,
-                        lastPageRead: book.lastPageRead,
-                        totalPages: book.totalPages,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => PdfViewerScreen(book: book),
-                            ),
-                          );
-                        },
-                      );
-                    },
                   ),
                 ),
             ],
