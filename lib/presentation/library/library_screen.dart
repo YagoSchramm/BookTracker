@@ -1,6 +1,4 @@
-import 'package:book_tracker/presentation/components/book_card.dart';
 import 'package:book_tracker/presentation/library/library_state.dart';
-import 'package:book_tracker/presentation/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +12,13 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   @override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  final libraryState = context.read<LibraryState>();
-  libraryState.loadBooks();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<LibraryState>().loadBooks();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

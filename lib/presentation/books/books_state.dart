@@ -4,7 +4,7 @@ import 'package:book_tracker/global.dart';
 import 'package:flutter/material.dart';
 
 class BooksState extends ChangeNotifier {
-  bool isLoading = true;
+  bool isLoading = false;
   User? user;
   List<Book> books = [];
   List<Book> filteredBooks = [];

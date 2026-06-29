@@ -17,12 +17,12 @@ class BooksScreen extends StatefulWidget {
 }
 
 class _BooksScreenState extends State<BooksScreen> {
-    @override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  final booksState = context.read<BooksState>();
-  booksState.loadBooks();
-  booksState.applyFilters();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<BooksState>().loadBooks();
+    });
   }
   @override
   Widget build(BuildContext context) {

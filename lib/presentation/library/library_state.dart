@@ -3,7 +3,7 @@ import 'package:book_tracker/global.dart';
 import 'package:flutter/material.dart';
 
 class LibraryState extends ChangeNotifier {
-  bool isLoading = true;
+  bool isLoading = false;
 
   List<Book> books = [];
 
